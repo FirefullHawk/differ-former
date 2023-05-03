@@ -42,3 +42,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Training file
+file1.json
+file2.json
