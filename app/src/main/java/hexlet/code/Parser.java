@@ -22,7 +22,7 @@ class Parser {
 
     private static String getFileExtension(String filePath) {
         String[] arr = filePath.split("\\.");
-        return arr[2];
+        return arr[arr.length - 1];
     }
 
     public static Map<String, Object> parser(String fileData, String filePath) throws JsonProcessingException {

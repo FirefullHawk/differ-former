@@ -9,9 +9,7 @@ import java.util.TreeSet;
 
 class StatusFormer {
     public static List<Object> getStatus(Map<String, Object> firstMap, Map<String, Object> secondMap) {
-
         NavigableSet<String> allKeys = new TreeSet<>(firstMap.keySet());
-
         allKeys.addAll(secondMap.keySet());
 
         List<Object> result = new ArrayList<>();
