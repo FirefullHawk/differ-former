@@ -21,8 +21,8 @@ class Parser {
     }
 
     private static String getFileExtension(String filePath) {
-        String[] Arr = filePath.split("\\.");
-        return Arr[2];
+        String[] arr = filePath.split("\\.");
+        return arr[2];
     }
 
     public static Map<String, Object> parser(String fileData, String filePath) throws JsonProcessingException {
