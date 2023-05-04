@@ -13,7 +13,7 @@ class StatusFormer {
 
 
         List<Element> result = new ArrayList<>();
-                allKeys
+        allKeys
                 .forEach(x -> {
                     boolean keyFrom1 = firstMap.containsKey(x);
                     boolean keyFrom2 = secondMap.containsKey(x);

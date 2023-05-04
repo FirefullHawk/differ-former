@@ -10,7 +10,7 @@ import java.util.Map;
 public class Plain {
 
     private static boolean isComplex(Object value) {
-        return value instanceof Arrays || value instanceof List || value instanceof Map<?,?>;
+        return value instanceof Arrays || value instanceof List || value instanceof Map<?, ?>;
     }
 
     private static boolean isString(Object value) {
@@ -27,10 +27,10 @@ public class Plain {
                     String update = "";
                     String added = "";
 
-                    if(isString(x.getValueFirstMap())) {
+                    if (isString(x.getValueFirstMap())) {
                         x.setValueFirstMap("'" + x.getValueFirstMap() + "'");
                     }
-                    if(isString(x.getValueSecondMap())) {
+                    if (isString(x.getValueSecondMap())) {
                         x.setValueSecondMap("'" + x.getValueSecondMap() + "'");
                     }
                     if (isComplex(x.getValueFirstMap())) {

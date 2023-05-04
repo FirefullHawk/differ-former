@@ -10,7 +10,8 @@ public class Stylish {
         final String[] result = {"{\n"};
 
         formedList
-                .forEach(x -> {String newLine = "";
+                .forEach(x -> {
+                    String newLine = "";
 
                     if (x.getStatus().equals(Status.updated)) {
                         x.setStatus(Status.removed);
