@@ -1,32 +1,57 @@
 package hexlet.code.format;
 
+import hexlet.code.Element;
+import hexlet.code.Status;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class Plain {
-    public static String plain(List<Object> formedList) {
+
+    private static boolean isComplex(Object value) {
+        return value instanceof Arrays || value instanceof List;
+    }
+
+    private static boolean isString(Object value) {
+        return value instanceof String;
+    }
+
+    public static String plain(List<Element> formedList) {
         final String[] result = {""};
 
         formedList
                 .stream()
-                .filter(x -> !x.toString().startsWith("unchanged"))
+                .filter(x -> !x.getStatus().equals(Status.unchanged))
                 .forEach(x -> {
-                    String[] arr = x.toString().split("%");
+                    String update = "";
 
-                    if (arr[2].contains("[") || arr[2].contains("{")) {
-                        arr[2] = "[complex value]";
+                    if(isString(x.getValueFirstMap())) {
+                        x.setValueFirstMap("'" + x.getValueFirstMap() + "'");
                     }
 
-                    if (arr[3].contains("[") || arr[3].contains("{")) {
-                        arr[3] = "[complex value]";
+                    if(isString(x.getValueSecondMap())) {
+                        x.setValueSecondMap("'" + x.getValueSecondMap() + "'");
                     }
 
-                    String upgradedFromTo = "";
-
-                    if (arr[0].equals("updated")) {
-                        upgradedFromTo += " From " + arr[2] + " to " + arr[3];
+                    if (isComplex(x.getValueFirstMap())) {
+                        x.setValueFirstMap("[complex value]");
                     }
 
-                    result[0] += "\nProperty '" + arr[1] + "' was " + arr[0] + "." + upgradedFromTo;
+                    if (isComplex(x.getValueSecondMap())) {
+                        x.setValueSecondMap("[complex value]");
+                    }
+
+                    if (x.getStatus().equals(Status.updated)) {
+                        update += ". From " + x.getValueFirstMap() + " to " + x.getValueSecondMap();
+                    }
+
+                    String added = "";
+
+                    if (x.getStatus().equals(Status.added)) {
+                        added += " with value: " + x.getValueSecondMap();
+                    }
+
+                    result[0] += "\nProperty '" + x.getName() + "' was " + x.getStatus() + update + added;
                 }
             );
         return result[0].trim();

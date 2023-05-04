@@ -15,12 +15,4 @@ public enum Status {
     public String getSigh() {
         return sign;
     }
-
-    public String returnSigh(String inptString) {
-        return switch (inptString) {
-            case "added" -> Status.added.getSigh();
-            case "removed" -> Status.removed.getSigh();
-            default -> Status.unchanged.getSigh();
-        };
-    }
 }

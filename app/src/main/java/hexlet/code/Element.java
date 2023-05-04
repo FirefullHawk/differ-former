@@ -1,18 +1,18 @@
 package hexlet.code;
 
-class Element<T> {
-    private final Status status;
+public class Element {
+    private Status status;
     private final String name;
-    private final T contentFirstMap;
-    private final T contentSecondMap;
+    private Object contentFirstMap;
+    private Object contentSecondMap;
 
-    Element(Status status, String name, T contentFirstMap, T contentSecondMap) {
+    Element(Status status, String name, Object contentFirstMap, Object contentSecondMap) {
         this.status = status;
         this.name = name;
         this.contentFirstMap = contentFirstMap;
         this.contentSecondMap = contentSecondMap;
     }
-    Element(Status status, String name, T contentFirstMap) {
+    Element(Status status, String name, Object contentFirstMap) {
         this.status = status;
         this.name = name;
         this.contentFirstMap = contentFirstMap;
@@ -25,8 +25,32 @@ class Element<T> {
         this.contentSecondMap = null;
     }
 
-    public String getFullElement() {
-        return status + "%" + name + "%" + contentFirstMap + "%" + contentSecondMap;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
+    public void setValueSecondMap(Object value) {
+        this.contentSecondMap = value;
+    }
+
+    public void setValueFirstMap(Object value) {
+        this.contentFirstMap = value;
+    }
+
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Object getValueFirstMap() {
+        return this.contentFirstMap;
+    }
+
+    public Object getValueSecondMap() {
+        return this.contentSecondMap;
+    }
 }

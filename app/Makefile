@@ -37,7 +37,7 @@ run-yml:
 	@./build/install/app/bin/app ./src/test/resources/simpleYML/file1.yml ./src/test/resources/simpleYML/file2.yml
 	
 run-plain:
-	@./build/install/app/bin/app -f plain ./src/test/resources/simpleJSON/file1.json ./src/test/resources/simpleJSON/file2.json
+	@./build/install/app/bin/app -f plain ./src/test/resources/innerJSON/file1.json ./src/test/resources/innerJSON/file2.json
 	
 run-json-out:
 	@./build/install/app/bin/app -f json ./src/test/resources/simpleJSON/file1.json ./src/test/resources/simpleJSON/file2.json

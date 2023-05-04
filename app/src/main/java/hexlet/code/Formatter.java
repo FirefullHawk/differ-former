@@ -11,7 +11,7 @@ import java.util.Map;
 public class Formatter {
     public static String format(Map<String, Object> content1, Map<String, Object> content2, String formatName)
             throws IOException {
-        List<Object> formedList = StatusFormer.getStatus(content1, content2);
+        List<Element> formedList = StatusFormer.getStatus(content1, content2);
 
         if (formatName.equals("json")) {
             return JSON.json(formedList);

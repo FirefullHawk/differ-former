@@ -6,21 +6,22 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.Element;
+import hexlet.code.Status;
 
 public class JSON {
-    public static String json(List<Object> formedList) throws IOException {
+    public static String json(List<Element> formedList) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
         Map<String, Object> outMap = new TreeMap<>();
 
         formedList
                 .stream()
-                .filter(x -> !x.toString().startsWith("unchanged"))
+                .filter(x -> !x.getStatus().equals(Status.unchanged))
                 .forEach(x -> {
-                    String[] arr = x.toString().split("%");
 
-                    String key = arr[1];
-                    String value = arr[0];
+                    String key = x.getName();
+                    String value = x.getStatus().toString();
 
                     outMap.put(key, value);
                 });
