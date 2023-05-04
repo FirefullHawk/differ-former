@@ -53,6 +53,9 @@ public class MainTest {
         String fileOne = "./src/test/resources/simpleJSON/file1.json";
         String fileTwo = "./src/test/resources/simpleJSON/file2.json";
 
+        String fileOnePlain = "./src/test/resources/innerJSON/file1.json";
+        String fileTwoPlain = "./src/test/resources/innerJSON/file2.json";
+
         String rightFileStylish = "./src/test/resources/rightFile/simple.txt";
         String rightFilePlain = "./src/test/resources/rightFile/plain.txt";
         String rightFileJSON = "./src/test/resources/rightFile/json_out.txt";
@@ -62,7 +65,7 @@ public class MainTest {
         Path rightFilePathJSON = Paths.get(rightFileJSON).toAbsolutePath().normalize();
 
         String actualStylish = Differ.generate(fileOne, fileTwo, stylish);
-        String actualPlain = Differ.generate(fileOne, fileTwo, plain);
+        String actualPlain = Differ.generate(fileOnePlain, fileTwoPlain, plain);
         String actualJSON = Differ.generate(fileOne, fileTwo, json);
 
         String expectedStylish = Files.readString(rightFilePathStylish).trim();

@@ -5,11 +5,12 @@ import hexlet.code.Status;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Plain {
 
     private static boolean isComplex(Object value) {
-        return value instanceof Arrays || value instanceof List;
+        return value instanceof Arrays || value instanceof List || value instanceof Map<?,?>;
     }
 
     private static boolean isString(Object value) {
@@ -24,29 +25,23 @@ public class Plain {
                 .filter(x -> !x.getStatus().equals(Status.unchanged))
                 .forEach(x -> {
                     String update = "";
+                    String added = "";
 
                     if(isString(x.getValueFirstMap())) {
                         x.setValueFirstMap("'" + x.getValueFirstMap() + "'");
                     }
-
                     if(isString(x.getValueSecondMap())) {
                         x.setValueSecondMap("'" + x.getValueSecondMap() + "'");
                     }
-
                     if (isComplex(x.getValueFirstMap())) {
                         x.setValueFirstMap("[complex value]");
                     }
-
                     if (isComplex(x.getValueSecondMap())) {
                         x.setValueSecondMap("[complex value]");
                     }
-
                     if (x.getStatus().equals(Status.updated)) {
                         update += ". From " + x.getValueFirstMap() + " to " + x.getValueSecondMap();
                     }
-
-                    String added = "";
-
                     if (x.getStatus().equals(Status.added)) {
                         added += " with value: " + x.getValueSecondMap();
                     }

@@ -10,11 +10,10 @@ import java.util.TreeSet;
 class StatusFormer {
     public static List<Element> getStatus(Map<String, Object> firstMap, Map<String, Object> secondMap) {
         NavigableSet<String> allKeys = new TreeSet<>(firstMap.keySet());
-        allKeys.addAll(secondMap.keySet());
+
 
         List<Element> result = new ArrayList<>();
-
-        allKeys
+                allKeys
                 .forEach(x -> {
                     boolean keyFrom1 = firstMap.containsKey(x);
                     boolean keyFrom2 = secondMap.containsKey(x);
@@ -30,7 +29,7 @@ class StatusFormer {
                         }
                     }
                     if (!keyFrom1 & keyFrom2) {
-                        oneLine = new Element(Status.added, x, valueSecondMap);
+                        oneLine = new Element(Status.added, x, valueSecondMap, valueSecondMap);
                     }
                     if (keyFrom1 & !keyFrom2) {
                         oneLine = new Element(Status.removed, x, valueFirstMap);
