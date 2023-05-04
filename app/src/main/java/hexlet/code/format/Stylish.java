@@ -18,6 +18,10 @@ public class Stylish {
                         newLine = Status.added.getSigh() + x.getName() + ": " + x.getValueSecondMap() + "\n";
                     }
 
+                    if (x.getStatus().equals(Status.added)) {
+                        x.setValueFirstMap(x.getValueSecondMap());
+                    }
+
                     result[0] += x.getStatus().getSigh() + x.getName() + ": " + x.getValueFirstMap() + "\n" + newLine;
                 });
         return result[0] + "}";

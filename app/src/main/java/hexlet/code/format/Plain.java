@@ -45,7 +45,6 @@ public class Plain {
                     if (x.getStatus().equals(Status.added)) {
                         added += " with value: " + x.getValueSecondMap();
                     }
-
                     result[0] += "\nProperty '" + x.getName() + "' was " + x.getStatus() + update + added;
                 }
             );
