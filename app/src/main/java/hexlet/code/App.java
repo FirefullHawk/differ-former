@@ -13,13 +13,13 @@ import picocli.CommandLine.Parameters;
 public final class App implements Callable<Integer> {
     @Option(names = {"-f", "--format"}, paramLabel = "format",
             description = "output format [default: stylish]", defaultValue = "stylish")
-    public String format;
+    private String format;
 
     @Parameters(paramLabel = "filepath1", index = "0", description = "path to first file")
-    public String filePath1;
+    private String filePath1;
 
     @Parameters(paramLabel = "filepath2", index = "1", description = "path to second file")
-    public String filePath2;
+    private String filePath2;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new App()).execute(args);

@@ -25,32 +25,31 @@ public class Element {
         this.contentSecondMap = null;
     }
 
-    public void setStatus(Status status) {
+    public final void setStatus(Status status) {
         this.status = status;
     }
 
-    public void setValueSecondMap(Object value) {
+    public final void setValueSecondMap(Object value) {
         this.contentSecondMap = value;
     }
 
-    public void setValueFirstMap(Object value) {
+    public final void setValueFirstMap(Object value) {
         this.contentFirstMap = value;
     }
 
-
-    public Status getStatus() {
+    public final Status getStatus() {
         return this.status;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public Object getValueFirstMap() {
+    public final Object getValueFirstMap() {
         return this.contentFirstMap;
     }
 
-    public Object getValueSecondMap() {
+    public final Object getValueSecondMap() {
         return this.contentSecondMap;
     }
 }
