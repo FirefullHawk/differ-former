@@ -1,5 +1,7 @@
 import hexlet.code.Differ;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,70 +10,47 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainTest {
+    private static String expectedStylish;
 
-    @Test
-    public void workTestSimpleJSON() throws Exception {
-        String fileOne = "./src/test/resources/simpleJSON/file1.json";
-        String fileTwo = "./src/test/resources/simpleJSON/file2.json";
-        String rightFile = "./src/test/resources/rightFile/simple.txt";
-        Path rightFilePath = Paths.get(rightFile).toAbsolutePath().normalize();
+    private static String expectedPlain;
 
-        String actual = Differ.generate(fileOne, fileTwo);
-        String expected = Files.readString(rightFilePath).trim();
-        assertEquals(expected, actual);
+    private static String expectedJSON;
+
+    private static Path getAbsolutePath(String filePath) {
+        return Paths.get(filePath).toAbsolutePath().normalize();
     }
 
-    @Test
-    public void workTestSimpleYML() throws Exception {
-        String fileOne = "./src/test/resources/simpleYML/file1.yml";
-        String fileTwo = "./src/test/resources/simpleYML/file2.yml";
-        String rightFile = "./src/test/resources/rightFile/simple.txt";
-        Path rightFilePath = Paths.get(rightFile).toAbsolutePath().normalize();
-
-        String actual = Differ.generate(fileOne, fileTwo);
-        String expected = Files.readString(rightFilePath).trim();
-        assertEquals(expected, actual);
+    private static String pathToString(Path absoluteFilePath) throws Exception {
+        return Files.readString(absoluteFilePath).trim();
     }
 
-    @Test
-    public void workTestInner() throws Exception {
-        String fileOne = "./src/test/resources/innerJSON/file1.json";
-        String fileTwo = "./src/test/resources/innerJSON/file2.json";
-        String rightFile = "./src/test/resources/rightFile/inner.txt";
-        Path rightFilePath = Paths.get(rightFile).toAbsolutePath().normalize();
+    @BeforeAll
+    public static void expectedAnswer() throws Exception {
+        String rightFileStylish = "./src/test/resources/rightFile/expected_stylish.txt";
+        String rightFilePlain = "./src/test/resources/rightFile/expected_plain.txt";
+        String rightFileJSON = "./src/test/resources/rightFile/expected_json.json";
 
-        String actual = Differ.generate(fileOne, fileTwo);
-        String expected = Files.readString(rightFilePath).trim();
-        assertEquals(expected, actual);
+        expectedStylish = pathToString(getAbsolutePath(rightFileStylish));
+        expectedPlain = pathToString(getAbsolutePath(rightFilePlain));
+        expectedJSON = pathToString(getAbsolutePath(rightFileJSON));
     }
-    @Test
-    public void workTestFormatStyle() throws Exception {
+
+    @ParameterizedTest
+    @ValueSource(strings = { "json", "yml" })
+    public void workTestFormatStyle(String extension) throws Exception {
         String stylish = "stylish";
         String plain = "plain";
         String json = "json";
 
-        String fileOne = "./src/test/resources/simpleJSON/file1.json";
-        String fileTwo = "./src/test/resources/simpleJSON/file2.json";
+        String fileOne = "./src/test/resources/" + extension + "/file1." + extension;
+        String fileTwo = "./src/test/resources/" + extension + "/file2." + extension;
 
-        String fileOnePlain = "./src/test/resources/innerJSON/file1.json";
-        String fileTwoPlain = "./src/test/resources/innerJSON/file2.json";
-
-        String rightFileStylish = "./src/test/resources/rightFile/simple.txt";
-        String rightFilePlain = "./src/test/resources/rightFile/plain.txt";
-        String rightFileJSON = "./src/test/resources/rightFile/json_out.txt";
-
-        Path rightFilePathStylish = Paths.get(rightFileStylish).toAbsolutePath().normalize();
-        Path rightFilePathPlain = Paths.get(rightFilePlain).toAbsolutePath().normalize();
-        Path rightFilePathJSON = Paths.get(rightFileJSON).toAbsolutePath().normalize();
-
+        String actualDefault = Differ.generate(fileOne, fileTwo);
         String actualStylish = Differ.generate(fileOne, fileTwo, stylish);
-        String actualPlain = Differ.generate(fileOnePlain, fileTwoPlain, plain);
+        String actualPlain = Differ.generate(fileOne, fileTwo, plain);
         String actualJSON = Differ.generate(fileOne, fileTwo, json);
 
-        String expectedStylish = Files.readString(rightFilePathStylish).trim();
-        String expectedPlain = Files.readString(rightFilePathPlain).trim();
-        String expectedJSON = Files.readString(rightFilePathJSON).trim();
-
+        assertEquals(expectedStylish, actualDefault);
         assertEquals(expectedStylish, actualStylish);
         assertEquals(expectedPlain, actualPlain);
         assertEquals(expectedJSON, actualJSON);
