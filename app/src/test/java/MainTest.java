@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MainTest {
+final class MainTest {
     private static String expectedStylish;
 
     private static String expectedPlain;
