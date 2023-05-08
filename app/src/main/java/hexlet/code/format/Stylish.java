@@ -9,7 +9,7 @@ public class Stylish {
     private static String getSigh(Status status) {
         return switch (status) {
             case ADDED -> (" ".repeat(2) + "+ ");
-            case UNCHANGED -> (" ".repeat(4));
+            case UNCHANGED -> (" ".repeat(2) + "  ");
             case REMOVED -> (" ".repeat(2) + "- ");
             default -> (" ".repeat(2) + "+-");
         };
