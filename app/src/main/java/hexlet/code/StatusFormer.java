@@ -19,20 +19,16 @@ class StatusFormer {
                     boolean keyFrom2 = secondMap.containsKey(x);
                     Object valueFirstMap = firstMap.get(x);
                     Object valueSecondMap = secondMap.get(x);
-                    Element oneLine = new Element();
+                    Element oneLine;
 
-                    if (keyFrom1 & keyFrom2) {
-                        if (Objects.equals(valueFirstMap, valueSecondMap)) {
-                            oneLine = new Element(Status.unchanged, x, valueFirstMap);
-                        } else {
-                            oneLine = new Element(Status.updated, x, valueFirstMap, valueSecondMap);
-                        }
-                    }
-                    if (!keyFrom1 & keyFrom2) {
-                        oneLine = new Element(Status.added, x, valueFirstMap, valueSecondMap);
-                    }
-                    if (keyFrom1 & !keyFrom2) {
-                        oneLine = new Element(Status.removed, x, valueFirstMap);
+                    if (!keyFrom1) {
+                        oneLine = new Element(Status.ADDED, x, valueFirstMap, valueSecondMap);
+                    } else if (!keyFrom2) {
+                        oneLine = new Element(Status.REMOVED, x, valueFirstMap);
+                    } else if (Objects.equals(valueFirstMap, valueSecondMap)) {
+                        oneLine = new Element(Status.UNCHANGED, x, valueFirstMap);
+                    } else {
+                        oneLine = new Element(Status.UPDATED, x, valueFirstMap, valueSecondMap);
                     }
                     result.add(oneLine);
                 });

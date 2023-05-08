@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.io.IOException;
 import java.util.Map;
 
 class Parser {
@@ -25,11 +26,14 @@ class Parser {
         return arr[arr.length - 1];
     }
 
-    public static Map<String, Object> parser(String fileData, String filePath) throws JsonProcessingException {
+    public static Map<String, Object> parser(String fileData, String filePath) throws IOException {
         String extension = getFileExtension(filePath);
-        if (extension.equals("json")) {
-            return parserJSON(fileData);
-        }
-        return parserYAML(fileData);
+
+        return switch (extension) {
+            case "json" -> parserJSON(fileData);
+            case "yml" -> parserYAML(fileData);
+            default -> throw new IOException("The '" + extension + "' file does not support.\n"
+                    + "Only .json or .yml file are available");
+        };
     }
 }

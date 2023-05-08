@@ -20,7 +20,7 @@ final class MainTest {
         return Paths.get(filePath).toAbsolutePath().normalize();
     }
 
-    private static String pathToString(Path absoluteFilePath) throws Exception {
+    private static String getDataFromFile(Path absoluteFilePath) throws Exception {
         return Files.readString(absoluteFilePath).trim();
     }
 
@@ -30,9 +30,9 @@ final class MainTest {
         String rightFilePlain = "./src/test/resources/rightFile/expected_plain.txt";
         String rightFileJSON = "./src/test/resources/rightFile/expected_json.json";
 
-        expectedStylish = pathToString(getAbsolutePath(rightFileStylish));
-        expectedPlain = pathToString(getAbsolutePath(rightFilePlain));
-        expectedJSON = pathToString(getAbsolutePath(rightFileJSON));
+        expectedStylish = getDataFromFile(getAbsolutePath(rightFileStylish));
+        expectedPlain = getDataFromFile(getAbsolutePath(rightFilePlain));
+        expectedJSON = getDataFromFile(getAbsolutePath(rightFileJSON));
     }
 
     @ParameterizedTest
@@ -46,13 +46,15 @@ final class MainTest {
         String fileTwo = "./src/test/resources/" + extension + "/file2." + extension;
 
         String actualDefault = Differ.generate(fileOne, fileTwo);
-        String actualStylish = Differ.generate(fileOne, fileTwo, stylish);
-        String actualPlain = Differ.generate(fileOne, fileTwo, plain);
-        String actualJSON = Differ.generate(fileOne, fileTwo, json);
-
         assertEquals(expectedStylish, actualDefault);
+
+        String actualStylish = Differ.generate(fileOne, fileTwo, stylish);
         assertEquals(expectedStylish, actualStylish);
+
+        String actualPlain = Differ.generate(fileOne, fileTwo, plain);
         assertEquals(expectedPlain, actualPlain);
+
+        String actualJSON = Differ.generate(fileOne, fileTwo, json);
         assertEquals(expectedJSON, actualJSON);
     }
 }

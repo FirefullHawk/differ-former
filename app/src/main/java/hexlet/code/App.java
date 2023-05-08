@@ -12,7 +12,7 @@ import picocli.CommandLine.Parameters;
 
 public final class App implements Callable<Integer> {
     @Option(names = {"-f", "--format"}, paramLabel = "format",
-            description = "output format [default: stylish]", defaultValue = "stylish")
+            description = "output format: stylish, plain, json [default: stylish]", defaultValue = "stylish")
     private String format;
 
     @Parameters(paramLabel = "filepath1", index = "0", description = "path to first file")

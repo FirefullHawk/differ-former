@@ -17,35 +17,41 @@ public class Plain {
         return value instanceof String;
     }
 
+    private static String statusLowerCase(Object status) {
+        return status.toString().toLowerCase();
+    }
+
     public static String plain(List<Element> formedList) {
         final String[] result = {""};
 
         formedList
                 .stream()
-                .filter(x -> !x.getStatus().equals(Status.unchanged))
+                .filter(x -> !x.getStatus().equals(Status.UNCHANGED))
                 .forEach(x -> {
                     String update = "";
                     String added = "";
+                    Object valueFirst = x.getValueFirstMap();
+                    Object valueSecond = x.getValueSecondMap();
 
                     if (isString(x.getValueFirstMap())) {
-                        x.setValueFirstMap("'" + x.getValueFirstMap() + "'");
+                        valueFirst = "'" + x.getValueFirstMap() + "'";
+                    } else if (isComplex(x.getValueFirstMap())) {
+                        valueFirst = "[complex value]";
                     }
                     if (isString(x.getValueSecondMap())) {
-                        x.setValueSecondMap("'" + x.getValueSecondMap() + "'");
+                        valueSecond = "'" + x.getValueSecondMap() + "'";
+                    } else if (isComplex(x.getValueSecondMap())) {
+                        valueSecond = "[complex value]";
                     }
-                    if (isComplex(x.getValueFirstMap())) {
-                        x.setValueFirstMap("[complex value]");
+
+                    if (x.getStatus().equals(Status.UPDATED)) {
+                        update += ". From " + valueFirst + " to " + valueSecond;
                     }
-                    if (isComplex(x.getValueSecondMap())) {
-                        x.setValueSecondMap("[complex value]");
+                    if (x.getStatus().equals(Status.ADDED)) {
+                        added += " with value: " + valueSecond;
                     }
-                    if (x.getStatus().equals(Status.updated)) {
-                        update += ". From " + x.getValueFirstMap() + " to " + x.getValueSecondMap();
-                    }
-                    if (x.getStatus().equals(Status.added)) {
-                        added += " with value: " + x.getValueSecondMap();
-                    }
-                    result[0] += "\nProperty '" + x.getName() + "' was " + x.getStatus() + update + added;
+                    result[0] += "\nProperty '" + x.getName() + "' was " + statusLowerCase(x.getStatus())
+                            + update + added;
                 }
             );
         return result[0].trim();

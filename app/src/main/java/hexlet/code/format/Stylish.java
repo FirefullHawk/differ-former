@@ -6,23 +6,36 @@ import hexlet.code.Element;
 import hexlet.code.Status;
 
 public class Stylish {
+    private static String getSigh(Status status) {
+        return switch (status) {
+            case ADDED -> (" ".repeat(2) + "+ ");
+            case UNCHANGED -> (" ".repeat(4));
+            case REMOVED -> (" ".repeat(2) + "- ");
+            default -> (" ".repeat(2) + "+-");
+        };
+    }
     public static String stylish(List<Element> formedList) {
         final String[] result = {"{\n"};
 
         formedList
                 .forEach(x -> {
+                    String sigh = getSigh(x.getStatus());
+                    String name = x.getName();
+                    Object value = x.getValueFirstMap();
                     String newLine = "";
 
-                    if (x.getStatus().equals(Status.updated)) {
-                        x.setStatus(Status.removed);
-                        newLine = Status.added.getSigh() + x.getName() + ": " + x.getValueSecondMap() + "\n";
+                    if (x.getStatus().equals(Status.UPDATED)) {
+                        sigh = getSigh(Status.REMOVED);
+                        newLine = getSigh(Status.ADDED) + name + ": " + x.getValueSecondMap() + "\n";
                     }
 
-                    if (x.getStatus().equals(Status.added)) {
-                        x.setValueFirstMap(x.getValueSecondMap());
+                    if (x.getStatus().equals(Status.ADDED)) {
+                        value = x.getValueSecondMap();
                     }
 
-                    result[0] += x.getStatus().getSigh() + x.getName() + ": " + x.getValueFirstMap() + "\n" + newLine;
+                    String line = sigh + name + ": " + value + "\n";
+
+                    result[0] += line + newLine;
                 });
         return result[0] + "}";
     }

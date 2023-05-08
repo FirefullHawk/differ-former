@@ -28,9 +28,6 @@ run-version:
 	@./build/install/app/bin/app -V
 
 run-json:
-	@./build/install/app/bin/app ./src/test/resources/defaultJSON/file1.json ./src/test/resources/defaultJSON/file2.json
-
-run-inner-json:
 	@./build/install/app/bin/app ./src/test/resources/json/file1.json ./src/test/resources/json/file2.json
 	
 run-yml:
@@ -40,7 +37,7 @@ run-plain:
 	@./build/install/app/bin/app -f plain ./src/test/resources/json/file1.json ./src/test/resources/json/file2.json
 	
 run-json-out:
-	@./build/install/app/bin/app -f json ./src/test/resources/defaultJSON/file1.json ./src/test/resources/defaultJSON/file2.json
+	@./build/install/app/bin/app -f json ./src/test/resources/json/file1.json ./src/test/resources/json/file2.json
 	
 build-run: build run
 
