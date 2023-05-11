@@ -1,18 +1,18 @@
 package hexlet.code;
 
-public final class Element {
+public final class KeyDiff {
     private final Status status;
     private final String name;
     private final Object contentFirstMap;
     private final Object contentSecondMap;
 
-    public Element(Status status, String name, Object contentFirstMap, Object contentSecondMap) {
+    public KeyDiff(Status status, String name, Object contentFirstMap, Object contentSecondMap) {
         this.status = status;
         this.name = name;
         this.contentFirstMap = contentFirstMap;
         this.contentSecondMap = contentSecondMap;
     }
-    public Element(Status status, String name, Object contentFirstMap) {
+    public KeyDiff(Status status, String name, Object contentFirstMap) {
         this.status = status;
         this.name = name;
         this.contentFirstMap = contentFirstMap;

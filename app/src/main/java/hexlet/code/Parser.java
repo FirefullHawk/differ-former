@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
 import java.util.Map;
 
-class Parser {
+public class Parser {
     private static Map<String, Object> parserJSON(String fileData) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(fileData, new TypeReference<>() {
@@ -21,19 +21,13 @@ class Parser {
         });
     }
 
-    private static String getFileExtension(String filePath) {
-        String[] arr = filePath.split("\\.");
-        return arr[arr.length - 1];
-    }
+    public static Map<String, Object> parser(String fileData, String fileExtension) throws IOException {
 
-    public static Map<String, Object> parser(String fileData, String filePath) throws IOException {
-        String extension = getFileExtension(filePath);
-
-        return switch (extension) {
+        return switch (fileExtension) {
             case "json" -> parserJSON(fileData);
-            case "yml" -> parserYAML(fileData);
-            default -> throw new IOException("The '" + extension + "' file does not support.\n"
-                    + "Only .json or .yml file are available");
+            case "yml", "yaml" -> parserYAML(fileData);
+            default -> throw new IOException("The '" + fileExtension + "' file does not support.\n"
+                    + "Only .json or .ymal/.yml file are available");
         };
     }
 }

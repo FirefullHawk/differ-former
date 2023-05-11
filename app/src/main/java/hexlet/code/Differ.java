@@ -22,12 +22,17 @@ public class Differ {
             throw new IOException("'" + absoluteFilePath + "' does not exist.\nCheck the file or it's extension.");
         }
     }
+    private static String getFileExtension(String filePath) {
+        String[] arr = filePath.split("\\.");
+        return arr[arr.length - 1];
+    }
 
     private static Map<String, Object> getData(String filePath) throws Exception {
         Path fileAbsolutePath = getAbsolutePath(filePath);
         checkFileExistence(fileAbsolutePath);
         String fileData = getDataFromFile(fileAbsolutePath);
-        return Parser.parser(fileData, filePath);
+        String fileExtension = getFileExtension(filePath);
+        return Parser.parser(fileData, fileExtension);
     }
 
     public static String generate(String filePath1, String filePath2, String formatName) throws Exception {
@@ -35,7 +40,7 @@ public class Differ {
         Map<String, Object> content1 = getData(filePath1);
         Map<String, Object> content2 = getData(filePath2);
 
-        List<Element> formedList = StatusFormer.getStatus(content1, content2);
+        List<KeyDiff> formedList = Comparator.getDifferList(content1, content2);
 
         return Formatter.format(formedList, formatName);
     }

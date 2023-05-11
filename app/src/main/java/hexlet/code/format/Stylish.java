@@ -1,8 +1,9 @@
 package hexlet.code.format;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import hexlet.code.Element;
+import hexlet.code.KeyDiff;
 import hexlet.code.Status;
 
 public class Stylish {
@@ -14,29 +15,24 @@ public class Stylish {
             default -> (" ".repeat(2) + "+-");
         };
     }
-    public static String stylish(List<Element> formedList) {
-        final String[] result = {"{\n"};
+    public static String stylish(List<KeyDiff> formedList) {
+        String result = "{\n";
 
-        formedList
-                .forEach(x -> {
-                    String sigh = getSigh(x.getStatus());
-                    String name = x.getName();
-                    Object value = x.getValueFirstMap();
-                    String newLine = "";
+        result += formedList
+                .stream()
+                .map(keyDiff -> {
+                    String sigh = getSigh(keyDiff.getStatus());
+                    String name = keyDiff.getName();
+                    Status status = keyDiff.getStatus();
 
-                    if (x.getStatus().equals(Status.UPDATED)) {
-                        sigh = getSigh(Status.REMOVED);
-                        newLine = getSigh(Status.ADDED) + name + ": " + x.getValueSecondMap() + "\n";
-                    }
-
-                    if (x.getStatus().equals(Status.ADDED)) {
-                        value = x.getValueSecondMap();
-                    }
-
-                    String line = sigh + name + ": " + value + "\n";
-
-                    result[0] += line + newLine;
-                });
-        return result[0] + "}";
+                    return switch (status) {
+                        case ADDED -> sigh + name + ": " + keyDiff.getValueSecondMap();
+                        case UPDATED -> getSigh(Status.REMOVED) + name + ": " + keyDiff.getValueFirstMap() + "\n"
+                                + getSigh(Status.ADDED) + name + ": " + keyDiff.getValueSecondMap();
+                        default -> sigh + name + ": " + keyDiff.getValueFirstMap();
+                    };
+                })
+                .collect(Collectors.joining("\n"));
+        return result + "\n}";
     }
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Formatter {
-    public static String format(List<Element> formedList, String formatName) throws IOException {
+    public static String format(List<KeyDiff> formedList, String formatName) throws IOException {
         return switch (formatName) {
             case "json" -> JSON.json(formedList);
             case "plain" -> Plain.plain(formedList);

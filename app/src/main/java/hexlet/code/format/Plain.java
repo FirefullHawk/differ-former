@@ -1,59 +1,43 @@
 package hexlet.code.format;
 
-import hexlet.code.Element;
+import hexlet.code.KeyDiff;
 import hexlet.code.Status;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Plain {
 
-    private static boolean isComplex(Object value) {
-        return value instanceof Arrays || value instanceof List || value instanceof Map<?, ?>;
+    private static Object complexToString(Object value) {
+        return value instanceof Arrays || value instanceof List || value instanceof Map<?, ?>
+                ? "[complex value]" : value;
     }
 
-    private static boolean isString(Object value) {
-        return value instanceof String;
+    private static Object stringToDecor(Object value) {
+        return value instanceof String ? "'" + value + "'" : value;
     }
 
     private static String statusLowerCase(Object status) {
         return status.toString().toLowerCase();
     }
 
-    public static String plain(List<Element> formedList) {
-        final String[] result = {""};
-
-        formedList
+    public static String plain(List<KeyDiff> formedList) {
+        return formedList
                 .stream()
-                .filter(x -> !x.getStatus().equals(Status.UNCHANGED))
-                .forEach(x -> {
-                    String update = "";
-                    String added = "";
-                    Object valueFirst = x.getValueFirstMap();
-                    Object valueSecond = x.getValueSecondMap();
+                .filter(keyDiff -> !keyDiff.getStatus().equals(Status.UNCHANGED))
+                .map(keyDiff -> {
+                    Status status = keyDiff.getStatus();
+                    Object valueFirst = complexToString(stringToDecor(keyDiff.getValueFirstMap()));
+                    Object valueSecond = complexToString(stringToDecor(keyDiff.getValueSecondMap()));
 
-                    if (isString(x.getValueFirstMap())) {
-                        valueFirst = "'" + x.getValueFirstMap() + "'";
-                    } else if (isComplex(x.getValueFirstMap())) {
-                        valueFirst = "[complex value]";
-                    }
-                    if (isString(x.getValueSecondMap())) {
-                        valueSecond = "'" + x.getValueSecondMap() + "'";
-                    } else if (isComplex(x.getValueSecondMap())) {
-                        valueSecond = "[complex value]";
-                    }
-
-                    if (x.getStatus().equals(Status.UPDATED)) {
-                        update += ". From " + valueFirst + " to " + valueSecond;
-                    }
-                    if (x.getStatus().equals(Status.ADDED)) {
-                        added += " with value: " + valueSecond;
-                    }
-                    result[0] += "\nProperty '" + x.getName() + "' was " + statusLowerCase(x.getStatus())
-                            + update + added;
-                }
-            );
-        return result[0].trim();
+                    return "Property '" + keyDiff.getName() + "' was " + statusLowerCase(status) + switch (status) {
+                        case UPDATED -> ". From " + valueFirst + " to " + valueSecond;
+                        case ADDED -> " with value: " + valueSecond;
+                        default -> "";
+                    };
+                })
+                .collect(Collectors.joining("\n"));
     }
 }
